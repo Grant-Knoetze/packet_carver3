@@ -20,7 +20,7 @@ from volatility3.framework.objects import utility
 class PacketCarver(interfaces.plugins.PluginInterface):
     """Carve and analyse IPv4 and ARP packets in memory dump
     and analyse the carved packets"""
-    
+
     @classmethod
     def get_requirements(cls):
         return [requirements.TranslationLayerRequirement(name='primary',
@@ -33,6 +33,9 @@ class PacketCarver(interfaces.plugins.PluginInterface):
                                                version=(1, 0, 0)),
                 requirements.PluginRequirement(name='netstat',
                                                plugin=netstat.NetStat,
+                                               version=(1, 0, 0)),
+                requirements.PluginRequirement(name='netstat',
+                                               plugin=netscan.NetScan,
                                                version=(1, 0, 0)),
                 requirements.PluginRequirement(name='netstat',
                                                plugin=netscan.NetScan,
