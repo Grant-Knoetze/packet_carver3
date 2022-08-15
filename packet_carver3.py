@@ -9,14 +9,18 @@ import re
 import socket
 import sys
 
-from volatility3.framework import interfaces
+from volatility3.framework import interfaces, renderers
+from volatility3.framework.plugins.windows import netscan
 from volatility3.plugins.windows import *
 from volatility3.framework.configuration import requirements
+from volatility3.framework.objects import utility
 
 
 # Define a class that inherits from PluginInterface
 class PacketCarver(interfaces.plugins.PluginInterface):
-
+    """Carve and analyse IPv4 and ARP packets in memory dump
+    and analyse the carved packets"""
+    
     @classmethod
     def get_requirements(cls):
         return [requirements.TranslationLayerRequirement(name='primary',
