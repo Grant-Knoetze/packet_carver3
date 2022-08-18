@@ -34,7 +34,7 @@ class PacketCarver(interfaces.plugins.PluginInterface):
                 requirements.PluginRequirement(name='netstat',
                                                plugin=netstat.NetStat,
                                                version=(1, 0, 0)),
-                requirements.PluginRequirement(name='netstat',
+                requirements.PluginRequirement(name='netscan',
                                                plugin=netscan.NetScan,
                                                version=(1, 0, 0)),
                 requirements.ListRequirement(name='pid',
