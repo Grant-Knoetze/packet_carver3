@@ -42,4 +42,23 @@ class PacketCarver(interfaces.plugins.PluginInterface):
                                              description="Process IDs to include (all other processes are excluded)",
                                              optional=True)]
 
-# Define the plugin requirements.
+
+# We should figure out what we are returning
+
+def run(self):
+    filter_func = netscan.NetScan.create_networkobject_filter(self.config.get('packet', None))
+
+    return renderers.TreeGrid([("Offset", format_hints.Hex),
+                               ("Protocol", str),
+                               ("LocalAddr", str),
+                               ("LocalPort", int),
+                               ("RemoteAddr", str),
+                               ("RemotePort", str),
+                               ("State", str),
+                               ("PID", int),
+                               ("Owner", str),
+                               ("Created", str)],
+                              self._generator(netscan.NetScan.list_networkobjects(self.context,
+                                                                                  self.config['primary'],
+                                                                                  self.config['nt_symbols'],
+                                                                                  filter_func=filter_func)))
