@@ -11,7 +11,7 @@ import socket
 import sys
 
 from volatility3.framework import interfaces, renderers
-from volatility3.framework.plugins.windows import netscan
+from volatility3.framework.plugins.windows import netscan, poolscanner
 from volatility3.plugins.windows import *
 from volatility3.framework.configuration import requirements
 from volatility3.framework.objects import utility
@@ -26,24 +26,23 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
     @classmethod
     def get_requirements(cls):
-        return [requirements.TranslationLayerRequirement(name='primary',
-                                                         description='Memory layer for the kernel',
-                                                         architectures=["Intel32", "Intel64"]),
-                requirements.SymbolTableRequirement(name="nt_symbols",
-                                                    description="Windows kernel symbols"),
-                requirements.PluginRequirement(name='pslist',
-                                               plugin=pslist.PsList,
-                                               version=(1, 0, 0)),
-                requirements.PluginRequirement(name='netstat',
-                                               plugin=netstat.NetStat,
-                                               version=(1, 0, 0)),
-                requirements.PluginRequirement(name='netscan',
-                                               plugin=netscan.NetScan,
-                                               version=(1, 0, 0)),
-                requirements.ListRequirement(name='pid',
-                                             element_type=int,
-                                             description="Process IDs to include (all other processes are excluded)",
-                                             optional=True)]
+        return [
+            requirements.ModuleRequirement(name='kernel', description='Windows kernel',
+                                           architectures=["Intel32", "Intel64"]),
+            requirements.VersionRequirement(name='poolscanner',
+                                            component=poolscanner.PoolScanner,
+                                            version=(1, 0, 0)),
+            requirements.VersionRequirement(name='info', component=info.Info, version=(1, 0, 0)),
+            requirements.VersionRequirement(name='verinfo', component=verinfo.VerInfo, version=(1, 0, 0)),
+            requirements.BooleanRequirement(
+                name='include-corrupt',
+                description=
+                "Radically eases result validation. This will show partially overwritten data. WARNING: the results "
+                "are likely to include garbage and/or corrupt data. Be cautious!",
+                default=False,
+                optional=True),
+        ]
+
     @classmethod
     def _verify_ipv4_header(cls, ip_header_in_hex):
         """
