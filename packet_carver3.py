@@ -91,6 +91,14 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
         return raw_packet_with_header
 
+    @classmethod
+    def is_ip(cls, ip):
+        """
+        Check IP address to confirm if IPV4
+        """
+        ipv4 = re.compile('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
+        return ipv4.match(ip)
+
 
 # We should figure out what we are returning
 
