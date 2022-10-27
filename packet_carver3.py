@@ -11,10 +11,6 @@ import socket
 import sys
 
 from volatility3.framework import interfaces, renderers
-from volatility3.framework.plugins.windows import netscan, poolscanner
-from volatility3.plugins.windows import *
-from volatility3.framework.configuration import requirements
-from volatility3.framework.objects import utility
 
 vollog = logging.getLogger(__name__)
 
@@ -44,7 +40,7 @@ class PacketCarver(interfaces.plugins.PluginInterface):
         ]
 
     @classmethod
-    def _verify_ipv4_header(cls, ip_header_in_hex):
+    def verify_ipv4_header(cls, ip_header_in_hex):
         """
         Internal helper function header checksum value and returns true if packet header is
         correct or false if incorrect, takes IP-header in hex string as arg
@@ -73,6 +69,13 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
         except Exception as e:
             return False
+
+    @classmethod
+    def format_mac_address(cls, hex_mac):
+        """
+        Internal helper function for human MAC formatting
+        """
+        return ':'.join(s.encode('hex') for s in hex_mac.decode('hex'))
 
 
 # We should figure out what we are returning
