@@ -8,9 +8,14 @@ import logging
 import os
 import re
 import socket
+import struct
 import sys
 
 from volatility3.framework import interfaces, renderers
+from volatility3.framework.configuration import requirements
+from volatility3.framework.plugins.windows import poolscanner, info, verinfo, netscan
+from volatility3.framework.renderers import format_hints
+from volatility3.framework.renderers import TreeGrid
 
 vollog = logging.getLogger(__name__)
 
@@ -20,8 +25,10 @@ class PacketCarver(interfaces.plugins.PluginInterface):
     """Carve and analyse IPv4 and ARP packets in memory dump
     and analyse the carved packets"""
 
-    @classmethod
-    def get_requirements(cls):
+    def __int__(self):
+        pass
+
+    def get_requirements(self):
         return [
             requirements.ModuleRequirement(name='kernel', description='Windows kernel',
                                            architectures=["Intel32", "Intel64"]),
@@ -39,8 +46,7 @@ class PacketCarver(interfaces.plugins.PluginInterface):
                 optional=True),
         ]
 
-    @classmethod
-    def verify_ipv4_header(cls, ip_header_in_hex):
+    def verify_ipv4_header(self, ip_header_in_hex):
         """
         Internal helper function header checksum value and returns true if packet header is
         correct or false if incorrect, takes IP-header in hex string as arg
@@ -70,15 +76,13 @@ class PacketCarver(interfaces.plugins.PluginInterface):
         except Exception as e:
             return False
 
-    @classmethod
-    def format_mac_address(cls, hex_mac):
+    def format_mac_address(self, hex_mac):
         """
         Internal helper function for human MAC formatting
         """
         return ':'.join(s.encode('hex') for s in hex_mac.decode('hex'))
 
-    @classmethod
-    def add_pcap_packet_header(cls, raw_packet):
+    def add_pcap_packet_header(self, raw_packet):
         """
         Internal helper function for adding correct packet header for pcaps packets
         """
@@ -91,16 +95,14 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
         return raw_packet_with_header
 
-    @classmethod
-    def is_ip(cls, ip):
+    def is_ip(self, ip):
         """
         Check IP address to confirm if IPV4
         """
         ipv4 = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
         return ipv4.match(ip)
 
-    @classmethod
-    def ips_not_to_test(cls, ip):
+    def ips_not_to_test(self, ip):
         """
         Function that tests to see if ip's are worth testing, ie: not loopback, internal, bogon etc
         """
@@ -130,11 +132,18 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
         return False
 
+    def carve_ipv4(self, hex_data, match_start, match_end):
+        """Carve IPv4 packets from hex data"""
+        packet_dict = dict()
 
-# We should figure out what we are returning
+        # Ethernet layer
+        packet_dict['ethernet_header'] = hex_data[match_start-24:match_end]
+
+
+
 
 def run(self):
-    filter_func = netscan.NetScan.create_networkobject_filter(self.config.get('packet', None))
+    pass
 
     return renderers.TreeGrid([("Offset", format_hints.Hex),
                                ("Protocol", str),
@@ -146,10 +155,7 @@ def run(self):
                                ("PID", int),
                                ("Owner", str),
                                ("Created", str)],
-                              self._generator(netscan.NetScan.list_networkobjects(self.context,
-                                                                                  self.config['primary'],
-                                                                                  self.config['nt_symbols'],
-                                                                                  filter_func=filter_func)))
+                                self._generator())
 
 
 def _generator(self):
