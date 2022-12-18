@@ -1,6 +1,6 @@
 # packet_carver3
 
-This project is an attempt at creating a tool for extracting a packet capture from a memory dump in Volatility3, and will be put forward as a community plugin for       Volatility3 by the students of the Maltrak Master of Cybersecurity program 2022.
+This project is an attempt at creating a tool for carving and analysing network packets from a memory dump in Volatility3, and will be put forward for acceptance as a community plugin for Volatility3 by the students of the Maltrak Master of Cybersecurity program for 2022.
 
 We have noticed that there is no community plugin for carving and analysing IPV4 and ARP packets in  Volatility3. There is a Python 2 community plugin for Volatility written by Nichlas Holm https://github.com/Memoryforensics.
 
