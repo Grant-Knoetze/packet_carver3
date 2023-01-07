@@ -13,4 +13,5 @@ This is a work in progress by cybersecurity students, for the cybersecurity comm
 
 
 * packet_carver3.py is our implementation of a packet carver plugin for Volatility3.
+* This repository includes a folder housing test suites for the functions found in the main packet_carver3.py file.
 * This code is free and open source. We welcome contributions and feedback.

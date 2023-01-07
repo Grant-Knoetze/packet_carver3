@@ -1,6 +1,6 @@
 #!/usr/env/bin python3
 
-def ips_not_to_test(self, ip):
+def ips_not_to_test(ip):
     """
     Function that tests to see if ip's are worth testing, ie: not loopback, internal, bogon etc
     """
@@ -29,3 +29,5 @@ def ips_not_to_test(self, ip):
         return True
 
     return False
+
+ips_not_to_test("192.168.1.1")

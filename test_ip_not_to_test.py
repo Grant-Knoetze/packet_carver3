@@ -13,3 +13,13 @@ class TestPacketCarve(unittest.TestCase):
         expected = True
         """Unit test to test the ips_not_to_test function from"""
         self.assertEqual(ips_not_to_test(testcase), expected)
+        if expected == True:
+            print("IP is not worth testing")
+
+    def test_ips_2(self):
+        testcase = "192.168.1.1"
+        expected = False
+        """Unit test to test the ips_not_to_test function for a valid IP"""
+        self.assertEqual(ips_not_to_test(testcase), expected)
+        if expected == False:
+            print("IP is worth testing")
