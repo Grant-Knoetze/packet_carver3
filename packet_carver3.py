@@ -28,7 +28,8 @@ class PacketCarver(interfaces.plugins.PluginInterface):
     def __int__(self):
         pass
 
-    def get_requirements(self):
+    @classmethod
+    def get_requirements(cls):
         return [
             requirements.ModuleRequirement(name='kernel', description='Windows kernel',
                                            architectures=["Intel32", "Intel64"]),
@@ -137,22 +138,17 @@ class PacketCarver(interfaces.plugins.PluginInterface):
         packet_dict = dict()
 
         # Ethernet layer
-        packet_dict['ethernet_header'] = hex_data[match_start-24:match_end]
-        packet_dict['ethernet_dst_mac'] = hex_data[match_start-24:match_start-12]
+        packet_dict['ethernet_header'] = hex_data[match_start - 24:match_end]
+        packet_dict['ethernet_dst_mac'] = hex_data[match_start - 24:match_start - 12]
         packet_dict['ethernet_dst_mac_str'] = self.format_mac_address(packet_dict['ethernet_dst_mac'])
-        packet_dict['ethernet_src_mac'] = hex_data[match_start-12:match_start]
+        packet_dict['ethernet_src_mac'] = hex_data[match_start - 12:match_start]
         packet_dict['ethernet_src_mac_str'] = self.format_mac_address(packet_dict['ethernet_src_mac'])
-        packet_dict['ethernet_type'] = hex_data[match_start:match_start+4]
+        packet_dict['ethernet_type'] = hex_data[match_start:match_start + 4]
 
         # IPv4 layer
         ip_header_begin = match_end
 
-        packet_dict['ip_version'] = hex_data[match_end:ip_header_begin+1]
-
-
-
-
-
+        packet_dict['ip_version'] = hex_data[match_end:ip_header_begin + 1]
 
 
 def run(self):
@@ -168,7 +164,7 @@ def run(self):
                                ("PID", int),
                                ("Owner", str),
                                ("Created", str)],
-                                self._generator())
+                              self._generator())
 
 
 def generator(self):
