@@ -17,8 +17,6 @@ from volatility3.framework.plugins.windows import poolscanner, info, verinfo, ne
 from volatility3.framework.renderers import format_hints
 from volatility3.framework.renderers import TreeGrid
 
-vollog = logging.getLogger(__name__)
-
 
 # Define a class that inherits from PluginInterface
 class PacketCarver(interfaces.plugins.PluginInterface):
