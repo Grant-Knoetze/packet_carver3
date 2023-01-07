@@ -30,4 +30,5 @@ def ips_not_to_test(ip):
 
     return False
 
+
 ips_not_to_test("192.168.1.1")
