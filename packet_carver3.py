@@ -138,6 +138,19 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
         # Ethernet layer
         packet_dict['ethernet_header'] = hex_data[match_start-24:match_end]
+        packet_dict['ethernet_dst_mac'] = hex_data[match_start-24:match_start-12]
+        packet_dict['ethernet_dst_mac_str'] = self.format_mac_address(packet_dict['ethernet_dst_mac'])
+        packet_dict['ethernet_src_mac'] = hex_data[match_start-12:match_start]
+        packet_dict['ethernet_src_mac_str'] = self.format_mac_address(packet_dict['ethernet_src_mac'])
+        packet_dict['ethernet_type'] = hex_data[match_start:match_start+4]
+
+        # IPv4 layer
+        ip_header_begin = match_end
+
+        packet_dict['ip_version'] = hex_data[match_end:ip_header_begin+1]
+
+
+
 
 
 
@@ -158,5 +171,5 @@ def run(self):
                                 self._generator())
 
 
-def _generator(self):
+def generator(self):
     pass
