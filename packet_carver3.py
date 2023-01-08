@@ -13,8 +13,9 @@ import sys
 
 from volatility3.framework import interfaces, renderers
 from volatility3.framework.configuration import requirements
-from volatility3.framework.plugins.windows import poolscanner, info, verinfo, netscan
+from volatility3.framework.plugins.windows import poolscanner, info, verinfo
 from volatility3.framework.renderers import format_hints
+from volatility3.plugins.windows import pslist
 from volatility3.framework.renderers import TreeGrid
 
 
@@ -24,7 +25,7 @@ class PacketCarver(interfaces.plugins.PluginInterface):
     and analyse the carved packets"""
 
     def __int__(self):
-        pass
+        return 0
 
     @classmethod
     def get_requirements(cls):
@@ -197,11 +198,13 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
                         packet_dict['src_port'] = hex_data[tcp_begin:tcp_begin + 4]
 
-                        packet_dict['src_port_str'] = str(struct.unpack('!H', binascii.unhexlify(packet_dict['src_port']))[0])
+                        packet_dict['src_port_str'] = str(
+                            struct.unpack('!H', binascii.unhexlify(packet_dict['src_port']))[0])
 
                         packet_dict['dst_port'] = hex_data[tcp_begin + 4:tcp_begin + 8]
 
-                        packet_dict['dst_port_str'] = str( struct.unpack('!H', binascii.unhexlify(packet_dict['dst_port']))[0])
+                        packet_dict['dst_port_str'] = str(
+                            struct.unpack('!H', binascii.unhexlify(packet_dict['dst_port']))[0])
 
                         self.parsed_packets.append(packet_dict)
 
@@ -212,11 +215,13 @@ class PacketCarver(interfaces.plugins.PluginInterface):
 
                         packet_dict['src_port'] = hex_data[udp_begin:udp_begin + 4]
 
-                        packet_dict['src_port_str'] = str(struct.unpack('!H', binascii.unhexlify(packet_dict['src_port']))[0])
+                        packet_dict['src_port_str'] = str(
+                            struct.unpack('!H', binascii.unhexlify(packet_dict['src_port']))[0])
 
                         packet_dict['dst_port'] = hex_data[udp_begin + 4:udp_begin + 8]
 
-                        packet_dict['dst_port_str'] = str(struct.unpack('!H', binascii.unhexlify(packet_dict['dst_port']))[0])
+                        packet_dict['dst_port_str'] = str(
+                            struct.unpack('!H', binascii.unhexlify(packet_dict['dst_port']))[0])
 
                         packet_dict['udp_len'] = hex_data[udp_begin + 8:udp_begin + 12]
 
