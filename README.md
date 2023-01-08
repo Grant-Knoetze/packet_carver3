@@ -14,4 +14,5 @@ This is a work in progress by cybersecurity students, for the cybersecurity comm
 
 * packet_carver3.py is our implementation of a packet carver plugin for Volatility3.
 * This repository contains test suites for the static functions found in the main script packet_carver3.py.
+* The test suite is all the functions in a static format that can be tested with the unittest module.
 * This code is free and open source. We welcome contributions and feedback.

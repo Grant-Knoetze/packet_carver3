@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # Test suite for the packet_carver3.py script
 
-from ip_check import is_ip
+from packet_carver3 import is_ip
+
 
 
 import unittest
