@@ -12,4 +12,4 @@ def is_ip(ip):
     return ipv4.match(ip)
 
 
-is_ip("192.168.1.14")
+print(is_ip("192.168.1.14"))
