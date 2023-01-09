@@ -13,9 +13,9 @@ def carve_ipv4(self, hex_data, match_start, match_end):
     # Ethernet layer
     packet_dict['ethernet_header'] = hex_data[match_start - 24:match_end]
     packet_dict['ethernet_dst_mac'] = hex_data[match_start - 24:match_start - 12]
-    packet_dict['ethernet_dst_mac_str'] = format_mac_address(packet_dict['ethernet_dst_mac'])
+    packet_dict['ethernet_dst_mac_str'] = self.format_mac_address(packet_dict['ethernet_dst_mac'])
     packet_dict['ethernet_src_mac'] = hex_data[match_start - 12:match_start]
-    packet_dict['ethernet_src_mac_str'] = format_mac_address(packet_dict['ethernet_src_mac'])
+    packet_dict['ethernet_src_mac_str'] = self.format_mac_address(packet_dict['ethernet_src_mac'])
     packet_dict['ethernet_type'] = hex_data[match_start:match_start + 4]
 
     # IPv4 layer
@@ -35,7 +35,7 @@ def carve_ipv4(self, hex_data, match_start, match_end):
         if len(packet_dict['ip_header']) >= 40:
 
             # Verify checksum
-            if verify_ipv4_header(packet_dict['ip_header']) is True:
+            if self.verify_ipv4_header(packet_dict['ip_header']) is True:
 
                 packet_dict['ip_service_field'] = hex_data[ip_header_begin + 2:ip_header_begin + 4]
 
