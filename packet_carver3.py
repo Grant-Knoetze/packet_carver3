@@ -5,6 +5,7 @@ import binascii
 import datetime
 import json
 import logging
+import re
 import os
 import re
 import socket
